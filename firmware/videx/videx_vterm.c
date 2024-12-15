@@ -96,11 +96,19 @@ VIDEXFUNC void videx_reg_write(uint_fast16_t address, uint_fast8_t data)
 
 VIDEXFUNC void videx_c8xx_read(uint_fast16_t address)
 {
-    if(address >= 0xce00)
+    if(current_machine == MACHINE_FRANKLIN) 
+    {
+        if (address == 0xCFFF)
+        {
+            videx_vterm_mem_selected = false;
+        }
+    }
+    else if(address >= 0xce00)
     {
         // accesses to $CE00-$CFFF deactivates the card's memory
         videx_vterm_mem_selected = false;
     }
+    
 }
 
 // Shadow bus accesses to the $C800-$CFFF memory space
@@ -118,6 +126,20 @@ VIDEXFUNC void videx_c8xx_write(uint_fast16_t address, uint_fast8_t data)
         uint16_t vaddr = videx_bankofs + (address & 0x01ff);
         videx_vram[vaddr] = data;
     }
+    else if(current_machine == MACHINE_FRANKLIN) 
+    {
+        // Franklin's softswitch is based on even or odd writes
+        // in address ranges 0xCE00-0xCEFF
+        if(address < 0xCF00)
+        {
+            frank_softswitch = ((address & 0x0001) == 0x0001) ? true: false;
+        }        
+
+        if (address == 0xCFFF)
+        {
+            videx_vterm_mem_selected = false;
+        }
+    } 
     else
     {
         // accesses to $CE00-$CFFF deactivates the card's memory

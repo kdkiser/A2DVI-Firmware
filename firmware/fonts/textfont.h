@@ -29,7 +29,7 @@ SOFTWARE.
 #include "applebus/buffers.h"
 
 #define MAX_FONT_COUNT    32
-#define CUSTOM_FONT_COUNT 16   /* custom fonts are part of MAX_FONT_COUNT */
+#define CUSTOM_FONT_COUNT 15   /* custom fonts are part of MAX_FONT_COUNT */
 
 #define DEFAULT_LOCAL_CHARSET       0
 #define DEFAULT_ALT_CHARSET         0
@@ -47,7 +47,7 @@ extern uint8_t __font_roms_start[];
 #define CUSTOM_FONT_ROM(i) (&__font_roms_start[(i)*CHARACTER_ROM_SIZE])
 
 extern const uint8_t* character_roms[MAX_FONT_COUNT];
-#define VIDEX_FONT_COUNT 10
+#define VIDEX_FONT_COUNT 11
 extern const uint8_t* character_roms_videx[VIDEX_FONT_COUNT];
 
 extern const uint8_t textfont_iie_us_enhanced[256 * 8];
@@ -69,6 +69,8 @@ extern const uint8_t textfont_iiplus_jp_katakana[256 * 8];
 
 extern const uint8_t textfont_clone_pravetz_cyrillic[256 * 8];
 
+extern const uint8_t textfont_frank_ace[256*8];
+
 /////////////////////////////////////////////////
 
 extern const uint8_t videx_apl[128 * 16];
@@ -82,3 +84,5 @@ extern const uint8_t videx_german[128 * 16];
 extern const uint8_t videx_katakana[128 * 16];
 extern const uint8_t videx_spanish[128 * 16];
 extern const uint8_t videx_symbol[128 * 16];
+extern const uint8_t frank_normal[128 * 16];
+extern const uint8_t frank_inverse[128 * 16];

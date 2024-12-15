@@ -132,6 +132,25 @@ static inline void __time_critical_func(machine_auto_detection)(uint32_t address
                 set_machine(MACHINE_BASIS);
             }
         }
+        else
+        if (Char1 == 0xB2) // '2': "ACE 1200 v2.3"
+        {
+            if (Char2 == 0xB0) // '0'
+            {
+                detected_machine = MACHINE_FRANKLIN;
+                set_machine(MACHINE_FRANKLIN);
+            }
+        }
+        else
+        if (Char1 == 0xB1) // '1': "ACE 1000 v2.2"
+        {
+            if (Char2 == 0xB) // '0'
+            {
+                // This is a best guess
+                detected_machine = MACHINE_FRANKLIN;
+                set_machine(MACHINE_FRANKLIN);
+            }
+        }
     }
 }
 
@@ -432,6 +451,8 @@ static inline void __time_critical_func(apple2_softswitches)(bool is_write, uint
         }
         break;
     }
+
+    //soft_switches |= SOFTSW_VIDEX_80COL;
 }
 
 // access to card's DEVSEL register area
@@ -461,10 +482,32 @@ void __time_critical_func(bus_func_ignore)(uint32_t value)
 }
 
 // Shadow screen area of the Apple's memory by observing the bus write cycles
+void __time_critical_func(bus_func_screen_read)(uint32_t value)
+{
+    uint_fast16_t address = ADDRESS_BUS(value);
+
+    if ((address >= 0x36)&&(address <= 0x37))
+    {
+        // Address of output routine
+
+        char ADDRL = apple_memory[0x0036];
+        char ADDRH = apple_memory[0x0037];
+        
+        // Note: videx is 0xCB07
+        if((ADDRH == 0xC3)&&(ADDRL == 0x07)) {
+            soft_switches |= SOFTSW_FRANK_80COL;
+        } else {
+            soft_switches &= ~SOFTSW_FRANK_80COL;
+        }
+    }
+
+}
+
+// Shadow screen area of the Apple's memory by observing the bus write cycles
 void __time_critical_func(bus_func_screen_write)(uint32_t value)
 {
     uint_fast16_t address = ADDRESS_BUS(value);
-    if ((address >= 0x400)&&(address < MAX_ADDRESS))
+    if ((address >= 0x0)&&(address < MAX_ADDRESS))
     {
         uint_fast8_t data = DATA_BUS(value);
 
@@ -497,7 +540,7 @@ void __time_critical_func(bus_func_screen_write)(uint32_t value)
             if (!IS_SOFTSWITCH(SOFTSW_MENU_ENABLE))
             {
                 apple_memory[address] = data;
-                if (address < 0x800)
+                if ((address >= 0x400)&&(address < 0x800))
                 {
                     machine_auto_detection(address);
                 }
@@ -528,7 +571,7 @@ void __time_critical_func(bus_func_cxxx_read)(uint32_t value)
         else
         if ((address & 0xF800) == 0xC800)
         {
-            if (videx_vterm_mem_selected)
+            //if (videx_vterm_mem_selected)
                 videx_c8xx_read(address);
         }
     }
@@ -596,7 +639,7 @@ void __time_critical_func(bus_func_fxxx_read)(uint32_t value)
 
 a2busfunc bus_functions[16*2] =
 {
-    /*$0xxx READ */ bus_func_ignore,
+    /*$0xxx READ */ bus_func_screen_read,
     /*$1xxx READ */ bus_func_ignore,
     /*$2xxx READ */ bus_func_ignore,
     /*$3xxx READ */ bus_func_ignore,

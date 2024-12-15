@@ -44,6 +44,7 @@ const uint8_t* DELAYED_COPY_DATA(character_roms)[32] =
     textfont_iiplus_videx_lowercase2, // 13
     textfont_iiplus_pigfont,          // 14
     textfont_iiplus_jp_katakana,      // 15
+    textfont_frank_ace,               // 16
 
     CUSTOM_FONT_ROM(0),
     CUSTOM_FONT_ROM(1),
@@ -59,8 +60,7 @@ const uint8_t* DELAYED_COPY_DATA(character_roms)[32] =
     CUSTOM_FONT_ROM(11),
     CUSTOM_FONT_ROM(12),
     CUSTOM_FONT_ROM(13),
-    CUSTOM_FONT_ROM(14),
-    CUSTOM_FONT_ROM(15)
+    CUSTOM_FONT_ROM(14)
 };
 
 const uint8_t* DELAYED_COPY_DATA(character_roms_videx)[VIDEX_FONT_COUNT] =
@@ -74,5 +74,6 @@ const uint8_t* DELAYED_COPY_DATA(character_roms_videx)[VIDEX_FONT_COUNT] =
     videx_apl,
     videx_super_sub,
     videx_epson,
-    videx_symbol
+    videx_symbol,
+    frank_normal
 };

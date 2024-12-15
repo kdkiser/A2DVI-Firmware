@@ -1,3 +1,19 @@
+# == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==
+if(WIN32)
+    set(USERHOME $ENV{USERPROFILE})
+else()
+    set(USERHOME $ENV{HOME})
+endif()
+set(sdkVersion 2.1.0)
+set(toolchainVersion 13_3_Rel1)
+set(picotoolVersion 2.1.0)
+set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+if (EXISTS ${picoVscode})
+    include(${picoVscode})
+endif()
+# ====================================================================================
+set(PICO_BOARD pico CACHE STRING "Board type")
+
 cmake_minimum_required(VERSION 3.18)
 
 # firmware version
@@ -124,6 +140,7 @@ add_executable(${BINARY_NAME}
     fonts/iiplus_videx_lowercase2.c
     fonts/iiplus_pigfont.c
     fonts/iiplus_jp_katakana.c
+    fonts/frank_ace.c
 
     fonts/videx/videx_normal.c
     fonts/videx/videx_inverse.c
@@ -136,6 +153,8 @@ add_executable(${BINARY_NAME}
     fonts/videx/videx_katakana.c
     fonts/videx/videx_spanish.c
     fonts/videx/videx_symbol.c
+    fonts/videx/frank_inverse.c
+    fonts/videx/frank_normal.c
 
     ${TEST_SOURCES}
 )

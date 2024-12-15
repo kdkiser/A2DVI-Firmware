@@ -44,6 +44,7 @@ volatile uint8_t   reload_charsets = 4;
 volatile bool      reload_colors;
 
 bool               videx_enabled;
+bool               frank_softswitch;
 uint8_t            cfg_videx_selection = 0; //0:DISABLED
 uint8_t            cfg_local_charset = 0;
 uint8_t            cfg_alt_charset   = 0;
@@ -163,6 +164,9 @@ void __time_critical_func(check_machine_font)()
 
 void __time_critical_func(set_machine)(compat_t machine)
 {
+    // Franklin's soft switch is different from the Videx
+    frank_softswitch = false;
+
     switch(machine)
     {
         case MACHINE_IIE:
@@ -184,6 +188,8 @@ void __time_critical_func(set_machine)(compat_t machine)
         case MACHINE_AGAT9:
         case MACHINE_BASIS:
         case MACHINE_PRAVETZ:
+        case MACHINE_FRANKLIN:
+            frank_softswitch = true;
         case MACHINE_II:
         default:
             internal_flags &= ~(IFLAGS_IIGS_REGS|IFLAGS_IIE_REGS);
@@ -299,7 +305,7 @@ void DELAYED_COPY_CODE(config_load_charsets)(void)
     {
         // videx character sets
         memcpy32(character_rom_videx_normal,  character_roms_videx[cfg_videx_selection-1], CHARACTER_ROM_SIZE);
-        memcpy32(character_rom_videx_inverse, videx_inverse,                               CHARACTER_ROM_SIZE);
+        memcpy32(character_rom_videx_inverse, (cfg_videx_selection == 11 ) ? frank_inverse : videx_inverse, CHARACTER_ROM_SIZE);
     }
 
     reload_charsets = 0;

@@ -187,6 +187,7 @@ char DELAYED_COPY_DATA(MachineNames)[] =
     "AGAT9\0"
     "BASIS\0"
     "PRAVETZ\0"
+    "FRANKLIN ACE\0"
     "\0"
 };
 
@@ -271,6 +272,7 @@ char DELAYED_COPY_DATA(MenuFontNames)[] =
     "II+ VIDEX LOWER 2\0"//13
     "II+ PIG FONT\0"//14
     "II+ JAPAN KATAKANA\0"//15
+    "FRANKLIN ACE FONT\0" // 16
 
     "CUSTOM FONT 1\0"
     "CUSTOM FONT 2\0"
@@ -287,7 +289,6 @@ char DELAYED_COPY_DATA(MenuFontNames)[] =
     "CUSTOM FONT 13\0"
     "CUSTOM FONT 14\0"
     "CUSTOM FONT 15\0"
-    "CUSTOM FONT 16\0"
     "\0";
 
 char DELAYED_COPY_DATA(MenuVidex)[] =
@@ -302,6 +303,7 @@ char DELAYED_COPY_DATA(MenuVidex)[] =
     "SUPER SUB\0" //8
     "EPSON\0"     //9
     "SYMBOL\0"    //10
+    "FRANKLIN\0"  //11
     "\0";
 
 char DELAYED_COPY_DATA(MenuTitle)[] = "- CONFIGURATION MENU -";

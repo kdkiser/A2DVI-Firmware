@@ -31,15 +31,16 @@ SOFTWARE.
 
 typedef enum
 {
-    MACHINE_AUTO    = 0,
-    MACHINE_II      = 1,
-    MACHINE_IIE     = 2,
-    MACHINE_IIE_ENH = 3,
-    MACHINE_AGAT7   = 4,
-    MACHINE_AGAT9   = 5,
-    MACHINE_BASIS   = 6,
-    MACHINE_PRAVETZ = 7,
-    MACHINE_MAX_CFG = MACHINE_PRAVETZ, // valid maximum option for config, otherwise "AUTO" is assumed
+    MACHINE_AUTO     = 0,
+    MACHINE_II       = 1,
+    MACHINE_IIE      = 2,
+    MACHINE_IIE_ENH  = 3,
+    MACHINE_AGAT7    = 4,
+    MACHINE_AGAT9    = 5,
+    MACHINE_BASIS    = 6,
+    MACHINE_PRAVETZ  = 7,
+    MACHINE_FRANKLIN = 8,
+    MACHINE_MAX_CFG  = MACHINE_FRANKLIN, // valid maximum option for config, otherwise "AUTO" is assumed
 //  MACHINE_IIGS    = 8,             // currently not supported
 //    MACHINE_INVALID = 0xfe
 } compat_t;
@@ -95,6 +96,7 @@ extern          uint32_t invalid_fonts;
 extern          uint8_t  cfg_local_charset;
 extern          uint8_t  cfg_alt_charset;
 extern          bool     videx_enabled;
+extern          bool     frank_softswitch;
 extern          uint8_t  cfg_videx_selection;
 extern volatile uint8_t  reload_charsets;
 extern volatile bool     reload_colors;
