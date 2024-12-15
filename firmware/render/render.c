@@ -268,7 +268,7 @@ void DELAYED_COPY_CODE(render_loop)()
         // copy soft switches - since we need consistent settings throughout a rendering cycle
         uint32_t current_softsw = soft_switches;
         bool IsVidex = ((current_softsw & (SOFTSW_TEXT_MODE|SOFTSW_VIDEX_80COL)) == (SOFTSW_TEXT_MODE|SOFTSW_VIDEX_80COL));
-        bool isFrank = (((current_softsw & SOFTSW_FRANK_80COL) == SOFTSW_FRANK_80COL) & frank_softswitch);
+        bool isFrank = (((current_softsw & (SOFTSW_TEXT_MODE|SOFTSW_FRANK_80COL)) == (SOFTSW_TEXT_MODE|SOFTSW_FRANK_80COL)) & frank_softswitch);
 #ifndef FEATURE_TEST_TMDS
         render_debug((IsVidex||isFrank), true);
 

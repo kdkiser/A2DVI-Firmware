@@ -482,28 +482,6 @@ void __time_critical_func(bus_func_ignore)(uint32_t value)
 }
 
 // Shadow screen area of the Apple's memory by observing the bus write cycles
-void __time_critical_func(bus_func_screen_read)(uint32_t value)
-{
-    uint_fast16_t address = ADDRESS_BUS(value);
-
-    if ((address >= 0x36)&&(address <= 0x37))
-    {
-        // Address of output routine
-
-        char ADDRL = apple_memory[0x0036];
-        char ADDRH = apple_memory[0x0037];
-        
-        // Note: videx is 0xCB07
-        if((ADDRH == 0xC3)&&(ADDRL == 0x07)) {
-            soft_switches |= SOFTSW_FRANK_80COL;
-        } else {
-            soft_switches &= ~SOFTSW_FRANK_80COL;
-        }
-    }
-
-}
-
-// Shadow screen area of the Apple's memory by observing the bus write cycles
 void __time_critical_func(bus_func_screen_write)(uint32_t value)
 {
     uint_fast16_t address = ADDRESS_BUS(value);
@@ -561,12 +539,31 @@ void __time_critical_func(bus_func_cxxx_read)(uint32_t value)
 
     if (videx_enabled)
     {
+        // If this is a Franklin Ace, no triggers for 80 column selection
+        if(current_machine == MACHINE_FRANKLIN)
+        {
+            if ((address & 0xFFF0) == 0xC0B0) 
+                soft_switches |= SOFTSW_FRANK_DVSEL;
+
+            if ((address & 0xFF00) == 0xC300)
+                soft_switches |= SOFTSW_FRANK_IOSEL;
+
+            if (address == 0xCFFF)
+                soft_switches &= ~(SOFTSW_FRANK_DVSEL | SOFTSW_FRANK_IOSEL);
+
+            if (soft_switches & (SOFTSW_FRANK_DVSEL | SOFTSW_FRANK_IOSEL))
+                soft_switches |= SOFTSW_FRANK_80COL;
+            
+        }
+
         if ((address & 0xFFF0) == 0xC0B0) // slot #3 register area ($C0B0-$C0BF)
             videx_reg_read(address);
+
         else
         if ((address & 0xFF00) == 0xC300)
         {
             videx_vterm_mem_selected = true;
+
         }
         else
         if ((address & 0xF800) == 0xC800)
@@ -591,6 +588,23 @@ void __time_critical_func(bus_func_cxxx_write)(uint32_t value)
 
     if (videx_enabled)
     {
+        // If this is a Franklin Ace, no triggers for 80 column selection
+        if(current_machine == MACHINE_FRANKLIN)
+        {
+            if ((address & 0xFFF0) == 0xC0B0) 
+                soft_switches |= SOFTSW_FRANK_DVSEL;
+
+            if ((address & 0xFF00) == 0xC300)
+                soft_switches |= SOFTSW_FRANK_IOSEL;
+
+            if (address == 0xCFFF)
+                soft_switches &= ~(SOFTSW_FRANK_DVSEL | SOFTSW_FRANK_IOSEL);
+
+            if (soft_switches & (SOFTSW_FRANK_DVSEL | SOFTSW_FRANK_IOSEL))
+                soft_switches |= SOFTSW_FRANK_80COL;
+            
+        }
+
         if ((address & 0xFFF0) == 0xC0B0) // slot #3 register area ($C0B0-$C0BF)
             videx_reg_write(address, DATA_BUS(value));
         else
@@ -639,7 +653,7 @@ void __time_critical_func(bus_func_fxxx_read)(uint32_t value)
 
 a2busfunc bus_functions[16*2] =
 {
-    /*$0xxx READ */ bus_func_screen_read,
+    /*$0xxx READ */ bus_func_ignore,
     /*$1xxx READ */ bus_func_ignore,
     /*$2xxx READ */ bus_func_ignore,
     /*$3xxx READ */ bus_func_ignore,

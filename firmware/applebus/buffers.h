@@ -118,6 +118,8 @@ extern volatile uint32_t internal_flags;
 #define SOFTSW_MENU_ENABLE    0x00800000ul
 #define SOFTSW_SHOW_SPLASH    0x01000000ul
 #define SOFTSW_FRANK_80COL    0x02000000ul
+#define SOFTSW_FRANK_IOSEL    0x04000000ul
+#define SOFTSW_FRANK_DVSEL    0x08000000ul
 
 #ifdef APPLEIIGS
 #define SOFTSW_NEWVID_MASK    0xE0ul

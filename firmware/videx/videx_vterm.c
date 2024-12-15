@@ -130,7 +130,7 @@ VIDEXFUNC void videx_c8xx_write(uint_fast16_t address, uint_fast8_t data)
     {
         // Franklin's softswitch is based on even or odd writes
         // in address ranges 0xCE00-0xCEFF
-        if(address < 0xCF00)
+        if ((address < 0xCF00) && (soft_switches & (SOFTSW_FRANK_DVSEL | SOFTSW_FRANK_IOSEL)))
         {
             frank_softswitch = ((address & 0x0001) == 0x0001) ? true: false;
         }        

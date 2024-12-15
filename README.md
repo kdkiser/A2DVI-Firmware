@@ -1,3 +1,7 @@
+# A2DVI Firmware: Digital Video now for Franklin Ace Computers
+
+This fork adds support for a stock configuration of the Franklin Ace 1200's video card.
+
 # A2DVI Firmware: Digital Video for Apple II Computers
 
 This is a firmware project for a digital DVI/HDMI video card for Apple II.
