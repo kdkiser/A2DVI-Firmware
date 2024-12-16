@@ -189,7 +189,6 @@ void __time_critical_func(set_machine)(compat_t machine)
         case MACHINE_BASIS:
         case MACHINE_PRAVETZ:
         case MACHINE_FRANKLIN:
-            frank_softswitch = true;
         case MACHINE_II:
         default:
             internal_flags &= ~(IFLAGS_IIGS_REGS|IFLAGS_IIE_REGS);
